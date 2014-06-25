@@ -74,7 +74,11 @@ shinyServer(function(input, output) {
       text3d(0,0,0,"Upload a neuron to transform!")
     } else {
       TransformStatus <<- "PROCESSING"
-      myNeuron <- nat:::read.neuron.swc(uploadedFile$datapath)
+      myNeuron <- tryCatch({
+        nat:::read.neuron(uploadedFile$datapath)
+      }, error = function(e) {
+        nat:::read.neuron.swc(uploadedFile$datapath)
+      })
       myNeuron <- xform_brain(myNeuron, sample=get(input$from), reference=get(input$to))
       TransformStatus <<- "DONE"
       plot3d(myNeuron)
@@ -91,7 +95,11 @@ shinyServer(function(input, output) {
       spheres3d(-5,-5,-5,0)
       text3d(0,0,0,"Upload a neuron to transform!")
     } else {
-      myNeuron <- nat:::read.neuron.swc(uploadedFile$datapath)
+      myNeuron <- tryCatch({
+        nat:::read.neuron(uploadedFile$datapath)
+      }, error = function(e) {
+        nat:::read.neuron.swc(uploadedFile$datapath)
+      })
       plot3d(myNeuron)
       plot3d(get(paste0(input$from, ".surf")), col="grey", alpha=0.3)
       par3d('userMatrix'=structure(c(1, 0, 0, 0, 0, -1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1), .Dim = c(4L, 4L)))
