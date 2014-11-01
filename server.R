@@ -6,6 +6,18 @@ options(nat.default.neuronlist='Cell07PNs')
 
 shinyServer(function(input, output) {
    TransformStatus <- "PROCESSING"
+   
+   tracing <- reactive({          
+     query_neuron <- input$file1
+     if(is.null(query_neuron)) return(NULL)
+     if(grepl("\\.swc", query_neuron$name)) tracing_neuron <- nat:::read.neuron.swc(query_neuron$datapath)
+     else tracing_neuron <- read.neuron(query_neuron$datapath)
+     
+     if(input$from != input$to) {
+       tracing_neuron <- xform_brain(tracing_neuron, sample=get(input$from), reference=get(input$to))
+     }
+     tracing_neuron
+   })
 
   output$complete <- reactive({
     return(ifelse(TransformStatus=="DONE", TRUE, FALSE))
@@ -21,22 +33,15 @@ shinyServer(function(input, output) {
   )
   
   output$transformedPlot <- renderWebGL({
-    uploadedFile <- input$file1
+    uploadedFile <- tracing()
     if(is.null(uploadedFile)) {
       # Dummy plot
       spheres3d(5,5,5,0)
       spheres3d(-5,-5,-5,0)
       text3d(0,0,0,"Upload a neuron to transform!")
     } else {
-      TransformStatus <<- "PROCESSING"
-      myNeuron <- tryCatch({
-        nat:::read.neuron(uploadedFile$datapath)
-      }, error = function(e) {
-        nat:::read.neuron.swc(uploadedFile$datapath)
-      })
-      myNeuron <- xform_brain(myNeuron, sample=get(input$from), reference=get(input$to))
       TransformStatus <<- "DONE"
-      plot3d(myNeuron)
+      plot3d(uploadedFile)
       plot3d(get(paste0(input$to, ".surf")), col="grey", alpha=0.3)
       par3d('userMatrix'=structure(c(1, 0, 0, 0, 0, -1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1), .Dim = c(4L, 4L)))
     }
