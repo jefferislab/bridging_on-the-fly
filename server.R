@@ -26,9 +26,9 @@ shinyServer(function(input, output) {
   
   # Download points handler
   output$downloadResults <- downloadHandler(
-    filename = function() {  paste('transformed-', Sys.Date(), '.txt', sep='') },
+    filename = function() {  paste0('transformed-', Sys.Date(), '.swc') },
     content = function(file) {
-      write.table(xformPoints(), file, col.names=TRUE, row.names=FALSE)
+      write.neuron(tracing(), file, format="swc")
     }
   )
   

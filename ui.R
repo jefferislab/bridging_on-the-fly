@@ -29,8 +29,7 @@ shinyUI(pageWithSidebar(
     conditionalPanel(
       condition = "output.complete",
       h2("Download"),
-      downloadButton('downloadResults', 'Download all points'),
-      downloadButton('downloadTransformation', 'Download transformation')
+      downloadButton('downloadResults', 'Download bridged SWC file')
     )
   )
 ))
