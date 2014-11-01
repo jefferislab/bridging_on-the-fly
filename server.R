@@ -6,44 +6,6 @@ options(nat.default.neuronlist='Cell07PNs')
 
 shinyServer(function(input, output) {
    TransformStatus <- "PROCESSING"
-  
-  select_transform <- reactive({
-    rval <- list(reg=NA,inverse=TRUE,exists=TRUE)
-    RegDir <- file.path("~/projects",'BridgingRegistrations')
-    rval$reg <- file.path(RegDir, paste(input$to, sep="", "_", input$from, ".list"))
-    
-    if(!file.exists(rval$reg)) {
-      # try and look for inverse
-      ireg <- file.path(RegDir, paste(input$from, sep="", "_", input$to, ".list"))
-      if(file.exists(ireg)) {
-        rval$reg <- ireg
-        rval$inverse <- FALSE
-      } else {
-        rval$exists <- FALSE
-      }
-    }
-    rval
-  })
-  
-  getTransformation <- function() {
-    rval <- select_transform()
-    readLines(con=file.path(rval$reg, 'registration'))
-  }
-  
-  # Details of transformation
-  output$transformation <- renderText({
-    paste("<b>Transformation:</b> ", input$from, " -> ", input$to)
-  })
-
-  # Path to registration
-  output$regpath <- renderText({
-    reglist <- select_transform()
-    if(!reglist$exists){
-      if(input$from == input$to)
-        return("<span style='color: red; font-weight: bold;'>This is the identity transformation!</span>")
-      return(paste("<span style='color: red; font-weight: bold;'>No direct transformation from ",input$from, " to ", input$to, " found.</span>"))
-    } else paste("<b>Registration path:</b> ", reglist$reg)
-  })
 
   output$complete <- reactive({
     return(ifelse(TransformStatus=="DONE", TRUE, FALSE))
@@ -55,13 +17,6 @@ shinyServer(function(input, output) {
     filename = function() {  paste('transformed-', Sys.Date(), '.txt', sep='') },
     content = function(file) {
       write.table(xformPoints(), file, col.names=TRUE, row.names=FALSE)
-    }
-  )
-  
-  output$downloadTransformation <- downloadHandler(
-    filename <- function() { paste('transformation_', input$from, '_to_', input$to, '.txt', sep='') },
-    content <- function(file) {
-      writeLines(getTransformation(), file)
     }
   )
   

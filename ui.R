@@ -1,5 +1,7 @@
 library(shiny)
-
+library(nat)
+library(nat.flybrains)
+library(shinyRGL)
 
 templateList <- list("T1 (Yu et al 2010, Dickson, IMP)" = "T1", 
                      "IS2 (Cachero, Ostrovsky et al 2010, Jefferis, MRC LMB)" = "IS2", 
@@ -21,11 +23,6 @@ shinyUI(pageWithSidebar(
   ),
   
   mainPanel(
-    h2("Bridge details"),
-    htmlOutput("transformation"),
-    htmlOutput("regpath"),
-    HTML("<br />"),
-    
     h2("Transformed neuron"),
     webGLOutput("transformedPlot"),
     
