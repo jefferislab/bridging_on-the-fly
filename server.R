@@ -32,9 +32,21 @@ shinyServer(function(input, output) {
    tracing <- reactive({          
      query_neuron <- input$file1
      if(is.null(query_neuron)) return(NULL)
-     if(grepl("\\.swc", query_neuron$name)) tracing_neuron <- nat:::read.neuron.swc(query_neuron$datapath)
+     if(grepl("\\.zip", query_neuron$name)) {
+       neurons_dir <- file.path(tempdir(), "user_neurons")
+       on.exit(unlink(neurons_dir, recursive=TRUE))
+       unzip(query_neuron$datapath, exdir=neurons_dir)
+       tracing_neuron <- read.neurons(dir(neurons_dir, full=TRUE))
+     }
+     else if(grepl("\\.swc", query_neuron$name)) tracing_neuron <- nat:::read.neuron.swc(query_neuron$datapath)
      else tracing_neuron <- read.neuron(query_neuron$datapath)
      
+     tracing_neuron
+   })
+   
+   transformed_tracing <- reactive({
+     tracing_neuron <- tracing()
+     if(is.null(tracing_neuron)) return(NULL)
      if(input$from != input$to) {
        tracing_neuron <- xform_brain(tracing_neuron, sample=get(input$from), reference=get(input$to))
      }
@@ -55,7 +67,7 @@ shinyServer(function(input, output) {
   )
   
   output$transformedPlot <- renderWebGL({
-    uploadedFile <- tracing()
+    uploadedFile <- transformed_tracing()
     if(is.null(uploadedFile)) {
       # Dummy plot
       spheres3d(5,5,5,0)
@@ -70,19 +82,14 @@ shinyServer(function(input, output) {
   })
 
   output$originalPlot <- renderWebGL({
-    uploadedFile <- input$file1
+    uploadedFile <- tracing()
     if(is.null(uploadedFile)) {
       # Dummy plot
       spheres3d(5,5,5,0)
       spheres3d(-5,-5,-5,0)
       text3d(0,0,0,"Upload a neuron to transform!")
     } else {
-      myNeuron <- tryCatch({
-        nat:::read.neuron(uploadedFile$datapath)
-      }, error = function(e) {
-        nat:::read.neuron.swc(uploadedFile$datapath)
-      })
-      plot3d(myNeuron)
+      plot3d(uploadedFile)
       plot3d(get(paste0(input$from, ".surf")), col="grey", alpha=0.3)
       frontalView()
     }

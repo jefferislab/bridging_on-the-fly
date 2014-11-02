@@ -18,12 +18,12 @@ shinyUI(pageWithSidebar(
     selectInput("from", "From:", templateList, selected=names(which(templateList=="FCWB"))),
     selectInput("to", "To:", templateList, selected=names(which(templateList=="JFRC2"))),
     fileInput('file1', 'Neuron file:'),
-    h2("Original neuron"),
+    h2("Original neuron(s)"),
     webGLOutput("originalPlot")
   ),
   
   mainPanel(
-    h2("Transformed neuron"),
+    h2("Transformed neuron(s)"),
     webGLOutput("transformedPlot"),
     
     conditionalPanel(
