@@ -19,6 +19,13 @@ inRows <- function(values, perrow, leadin="\t", digits=5) {
 environment(inRows) <- asNamespace('rgl')
 assignInNamespace('inRows', inRows, ns='rgl')
 
+# Define a function for a frontal view of the brain
+frontalView<-function(zoom=0.6){
+  um=structure(c(1, 0, 0, 0, 0, -1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1), .Dim = c(4L, 4L))
+  rgl.viewpoint(userMatrix=um,zoom=zoom)
+}
+
+
 shinyServer(function(input, output) {
    TransformStatus <- "PROCESSING"
    
@@ -58,7 +65,7 @@ shinyServer(function(input, output) {
       TransformStatus <<- "DONE"
       plot3d(uploadedFile)
       plot3d(get(paste0(input$to, ".surf")), col="grey", alpha=0.3)
-      par3d('userMatrix'=structure(c(1, 0, 0, 0, 0, -1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1), .Dim = c(4L, 4L)))
+      frontalView()
     }
   })
 
@@ -77,7 +84,7 @@ shinyServer(function(input, output) {
       })
       plot3d(myNeuron)
       plot3d(get(paste0(input$from, ".surf")), col="grey", alpha=0.3)
-      par3d('userMatrix'=structure(c(1, 0, 0, 0, 0, -1, 0, 0, 0, 0, -1, 0, 0, 0, 0, 1), .Dim = c(4L, 4L)))
+      frontalView()
     }
   })
 
