@@ -94,5 +94,57 @@ shinyServer(function(input, output) {
       frontalView()
     }
   })
+  
+  points <- reactive({
+    pts <- read.table(text=input$input_points)
+    if(ncol(pts)==4) pts <- pts[, 1:3]
+    colnames(pts) <- c('X', 'Y', 'Z')
+    pts
+  })
+  
+  transformed_points <- reactive({
+    pts <- points()
+    if(input$fromPts != input$toPts) {
+       pts <- xform_brain(pts, sample=get(input$fromPts), reference=get(input$toPts))
+    }
+    pts
+  })
+  
+  output$originalPtsPlot <- renderWebGL({
+    pts <- points()
+    if(is.null(pts)) {
+      # Dummy plot
+      spheres3d(5,5,5,0)
+      spheres3d(-5,-5,-5,0)
+      text3d(0,0,0,"Enter coordinates in textbox")
+      text3d(0,0,-1.5,"and click bridge!")
+    } else {
+      # Dummy plot
+      spheres3d(pts, radius=5)
+      plot3d(get(paste0(input$fromPts, ".surf")), col="grey", alpha=0.3)
+      frontalView()
+    }
+  })
+  
+  output$transformedPts <- renderTable({
+    pts <- transformed_points()
+    pts
+  })
+  
+  output$transformedPtsPlot <- renderWebGL({
+    pts <- transformed_points()
+    if(is.null(pts)) {
+      # Dummy plot
+      spheres3d(5,5,5,0)
+      spheres3d(-5,-5,-5,0)
+      text3d(0,0,0,"Enter coordinates in textbox")
+      text3d(0,0,-1.5,"and click bridge!")
+    } else {
+      # Dummy plot
+      spheres3d(pts, radius=5)
+      plot3d(get(paste0(input$toPts, ".surf")), col="grey", alpha=0.3)
+      frontalView()
+    }
+  })
 
 })
