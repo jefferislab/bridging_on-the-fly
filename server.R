@@ -62,7 +62,7 @@ shinyServer(function(input, output) {
   output$downloadResults <- downloadHandler(
     filename = function() {  paste0('transformed-', Sys.Date(), '.swc') },
     content = function(file) {
-      write.neuron(tracing(), file, format="swc")
+      write.neuron(tracing(), file, format="swc", ext="")
     }
   )
   
