@@ -15,6 +15,10 @@ tabPanel("User-uploaded tracing",
   sidebarLayout(
   
   sidebarPanel(
+    h2("Instructions"),
+    "Select your source and target template brains and upload a tracing below. A zip archive of multiple neurons can also be uploaded. The original neuron(s) will be displayed in 3D below, with the bridged neurons to the right.",
+    br(),
+    br(),
     selectInput("from", "From:", templateList, selected=names(which(templateList=="FCWB"))),
     selectInput("to", "To:", templateList, selected=names(which(templateList=="JFRC2"))),
     fileInput('file1', 'Neuron file:'),
