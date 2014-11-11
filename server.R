@@ -53,10 +53,6 @@ shinyServer(function(input, output) {
     tracing_neuron
   })
 
-  output$complete <- reactive({
-    return(ifelse(TransformStatus=="DONE", TRUE, FALSE))
-  })
-  outputOptions(output, 'complete', suspendWhenHidden=FALSE)
   
   # Download points handler
   output$downloadResults <- downloadHandler(
@@ -146,5 +142,11 @@ shinyServer(function(input, output) {
       frontalView()
     }
   })
+  
+  output$complete <- reactive({
+    input$file1
+    return(ifelse(TransformStatus=="DONE", TRUE, FALSE))
+  })
+  outputOptions(output, 'complete', suspendWhenHidden=FALSE)
 
 })
