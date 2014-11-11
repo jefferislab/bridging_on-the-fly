@@ -30,28 +30,28 @@ shinyServer(function(input, output) {
    TransformStatus <- "PROCESSING"
    
    tracing <- reactive({          
-     query_neuron <- input$file1
-     if(is.null(query_neuron)) return(NULL)
-     if(grepl("\\.zip", query_neuron$name)) {
-       neurons_dir <- file.path(tempdir(), "user_neurons")
-       on.exit(unlink(neurons_dir, recursive=TRUE))
-       unzip(query_neuron$datapath, exdir=neurons_dir)
-       tracing_neuron <- read.neurons(dir(neurons_dir, full=TRUE))
-     }
-     else if(grepl("\\.swc", query_neuron$name)) tracing_neuron <- nat:::read.neuron.swc(query_neuron$datapath)
-     else tracing_neuron <- read.neuron(query_neuron$datapath)
-     
-     tracing_neuron
-   })
+    query_neuron <- input$file1
+    if(is.null(query_neuron)) return(NULL)
+    if(grepl("\\.zip", query_neuron$name)) {
+      neurons_dir <- file.path(tempdir(), "user_neurons")
+      on.exit(unlink(neurons_dir, recursive=TRUE))
+      unzip(query_neuron$datapath, exdir=neurons_dir)
+      tracing_neuron <- read.neurons(dir(neurons_dir, full=TRUE))
+    }
+    else if(grepl("\\.swc", query_neuron$name)) tracing_neuron <- nat:::read.neuron.swc(query_neuron$datapath)
+    else tracing_neuron <- read.neuron(query_neuron$datapath)
+    
+    tracing_neuron
+  })
    
-   transformed_tracing <- reactive({
-     tracing_neuron <- tracing()
-     if(is.null(tracing_neuron)) return(NULL)
-     if(input$from != input$to) {
-       tracing_neuron <- xform_brain(tracing_neuron, sample=get(input$from), reference=get(input$to))
-     }
-     tracing_neuron
-   })
+  transformed_tracing <- reactive({
+    tracing_neuron <- tracing()
+    if(is.null(tracing_neuron)) return(NULL)
+    if(input$from != input$to) {
+      tracing_neuron <- xform_brain(tracing_neuron, sample=get(input$from), reference=get(input$to))
+    }
+    tracing_neuron
+  })
 
   output$complete <- reactive({
     return(ifelse(TransformStatus=="DONE", TRUE, FALSE))
