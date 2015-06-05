@@ -19,8 +19,8 @@ tabPanel("User-uploaded tracing",
     "Select your source and target template brains and upload a tracing below. A zip archive of multiple neurons can also be uploaded. The original neuron(s) will be displayed in 3D below, with the bridged neurons to the right.",
     br(),
     br(),
-    selectInput("from", "From:", templateList, selected=names(which(templateList=="FCWB"))),
-    selectInput("to", "To:", templateList, selected=names(which(templateList=="JFRC2"))),
+    selectInput("from", "From:", templateList, selected="FCWB"),
+    selectInput("to", "To:", templateList, selected="JFRC2"),
     fileInput('file1', 'Neuron file:'),
     h2("Original neuron(s)"),
     webGLOutput("originalPlot", width="400px", height="400px")
@@ -43,8 +43,8 @@ tabPanel("Coordinates",
   sidebarLayout(
   
   sidebarPanel(
-    selectInput("fromPts", "From:", templateList, selected=names(which(templateList=="FCWB"))),
-    selectInput("toPts", "To:", templateList, selected=names(which(templateList=="JFRC2"))),
+    selectInput("fromPts", "From:", templateList, selected="FCWB"),
+    selectInput("toPts", "To:", templateList, selected="JFRC2"),
     h2("Original points"),
     HTML('<textarea id="input_points" rows="16" cols=60>100 200 50
 400 100 10</textarea>'),
