@@ -23,12 +23,12 @@ tabPanel("User-uploaded tracing",
     selectInput("to", "To:", templateList, selected=names(which(templateList=="JFRC2"))),
     fileInput('file1', 'Neuron file:'),
     h2("Original neuron(s)"),
-    webGLOutput("originalPlot")
+    webGLOutput("originalPlot", width="400px", height="400px")
   ),
   
   mainPanel(
     h2("Transformed neuron(s)"),
-    webGLOutput("transformedPlot"),
+    webGLOutput("transformedPlot", width="800px", height="800px"),
     
     conditionalPanel(
       condition = "output.complete",
@@ -51,13 +51,13 @@ tabPanel("Coordinates",
     submitButton("Bridge"),
     br(),
     h3("In 3D"),
-    webGLOutput("originalPtsPlot")
+    webGLOutput("originalPtsPlot", width="400px", height="400px")
   ),
   
   mainPanel(
     h2("Transformed points"),
     h3("In 3D"),
-    webGLOutput("transformedPtsPlot"),
+    webGLOutput("transformedPtsPlot", width="800px", height="800px"),
     tableOutput("transformedPts")
   )
 )),
