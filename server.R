@@ -116,7 +116,7 @@ shinyServer(function(input, output) {
       text3d(0,0,-1.5,"and click bridge!")
     } else {
       # Dummy plot
-      spheres3d(pts, radius=5)
+      spheres3d(pts, radius=5, color=rainbow(length(points())))
       plot3d(get(paste0(input$fromPts, ".surf")), col="grey", alpha=0.3)
       frontalView()
     }
@@ -137,7 +137,7 @@ shinyServer(function(input, output) {
       text3d(0,0,-1.5,"and click bridge!")
     } else {
       # Dummy plot
-      spheres3d(pts, radius=5)
+      spheres3d(pts, radius=5, color=rainbow(length(points())))
       plot3d(get(paste0(input$toPts, ".surf")), col="grey", alpha=0.3)
       frontalView()
     }
