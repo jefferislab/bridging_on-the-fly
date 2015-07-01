@@ -50,9 +50,20 @@ shinyServer(function(input, output) {
     if(is.null(tracing_neuron)) return(NULL)
     if(input$from != input$to) {
       if(input$mirror) {
-        tracing_neuron <- mirror_brain(tracing_neuron, get(input$from))
+        tryCatch({
+          tracing_neuron <- mirror_brain(tracing_neuron, get(input$from))
+          tracing_neuron <- xform_brain(tracing_neuron, sample=get(input$from), reference=get(input$to))
+        }, error = function(e) {
+          tryCatch({
+            tracing_neuron <- xform_brain(tracing_neuron, sample=get(input$from), reference=get(input$to))
+            tracing_neuron <- mirror_brain(tracing_neuron, get(input$to))
+          }, error = function(e) {
+            stop("Could not mirror neuron.")
+          })
+        })
+      } else {
+        tracing_neuron <- xform_brain(tracing_neuron, sample=get(input$from), reference=get(input$to))
       }
-      tracing_neuron <- xform_brain(tracing_neuron, sample=get(input$from), reference=get(input$to))
     }
     tracing_neuron
   })
