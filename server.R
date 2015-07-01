@@ -29,8 +29,9 @@ frontalView<-function(zoom=0.6){
 shinyServer(function(input, output) {
    TransformStatus <- "PROCESSING"
    
-   tracing <- reactive({          
-    query_neuron <- input$file1
+   tracing <- reactive({
+    input$bridge_button
+    isolate(query_neuron <- input$file1)
     if(is.null(query_neuron)) return(NULL)
     if(grepl("\\.zip", query_neuron$name)) {
       neurons_dir <- file.path(tempdir(), "user_neurons")
@@ -48,6 +49,9 @@ shinyServer(function(input, output) {
     tracing_neuron <- tracing()
     if(is.null(tracing_neuron)) return(NULL)
     if(input$from != input$to) {
+      if(input$mirror) {
+        tracing_neuron <- mirror_brain(tracing_neuron, get(input$from))
+      }
       tracing_neuron <- xform_brain(tracing_neuron, sample=get(input$from), reference=get(input$to))
     }
     tracing_neuron
