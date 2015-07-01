@@ -73,9 +73,14 @@ shinyServer(function(input, output) {
   
   # Download points handler
   output$downloadResults <- downloadHandler(
-    filename = function() {  paste0('transformed-', Sys.Date(), '.swc') },
-    content = function(file) {
-      write.neuron(tracing(), file, format="swc", ext="")
+    filename = function() {
+      ifelse("hxsurf" %in% class(transformed_tracing()), paste0('transformed_', input$to, '_', input$from, '_', Sys.Date(), '.surf'), paste0('transformed_', Sys.Date(), '.swc'))
+    }, content = function(file) {
+      if("hxsurf" %in% class(transformed_tracing())) {
+        write.hxsurf(transformed_tracing(), file=file)
+      } else {
+        write.neuron(transformed_tracing(), file=file, format="swc", ext=".swc")
+      }
     }
   )
   

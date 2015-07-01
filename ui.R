@@ -37,7 +37,7 @@ tabPanel("User-uploaded tracing",
     conditionalPanel(
       condition = "output.complete",
       h2("Download"),
-      downloadButton('downloadResults', 'Download bridged SWC file')
+      downloadButton('downloadResults', 'Download bridged file')
     )
   )
 )),
