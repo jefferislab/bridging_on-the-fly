@@ -33,8 +33,8 @@ shinyServer(function(input, output) {
     input$bridge_button
     isolate(query_neuron <- input$file1)
     if(is.null(query_neuron)) return(NULL)
-    if(grepl("\\.surf", query_neuron$name)) {
-      tracing_neuron <- read.hxsurf(query_neuron$datapath)
+    if(!is.null(reader <- getformatreader(query_neuron$datapath, 'hxsurf')$read)) {
+      tracing_neuron <- reader(query_neuron$datapath)
     } else if(grepl("\\.zip", query_neuron$name)) {
       neurons_dir <- file.path(tempdir(), "user_neurons")
       on.exit(unlink(neurons_dir, recursive=TRUE))
