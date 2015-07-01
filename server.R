@@ -166,7 +166,7 @@ shinyServer(function(input, output) {
   })
   
   output$complete <- reactive({
-    input$file1
+    input$bridge_button
     return(ifelse(TransformStatus=="DONE", TRUE, FALSE))
   })
   outputOptions(output, 'complete', suspendWhenHidden=FALSE)
