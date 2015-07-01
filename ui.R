@@ -5,7 +5,7 @@ library(shinyRGL)
 
 templateList <- list("T1 (Yu et al 2010, Dickson, IMP)" = "T1", 
                      "IS2 (Cachero, Ostrovsky et al 2010, Jefferis, MRC LMB)" = "IS2", 
-                     "Cell07 (Jefferis, Potter 2007, Jefferis/Luo, Cambridge/Stanford)" = "Cell07",
+                     "IBNWB (Insect Brain Name Working Group)" = "IBNWB",
                      "FCWB (Ostrovsky/Costa in prep, Jefferis, MRC LMB)" = "FCWB",
                      "JFRC2 (HHMI/VFB)" = "JFRC2")
 
