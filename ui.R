@@ -30,7 +30,7 @@ shinyUI(fluidPage(
   ),
   
   HTML('<a name="neurons"></a>'),
-  h1("Bridge neurons", style="padding-top: 100px;"),
+  h1("Bridge neurons", style="padding-top: 70px;"),
   sidebarLayout(
     sidebarPanel(
       h2("Instructions"),
@@ -54,9 +54,10 @@ shinyUI(fluidPage(
     )
   ),
   
+  div(style="height: 100vh;"),
+  
   HTML('<a name="coordinates"></a>'),
-  br(),
-  h1("Bridge coordinates"),
+  h1("Bridge coordinates", style="padding-top: 70px;"),
   sidebarLayout(
     sidebarPanel(
       h2("Instructions"),
@@ -81,6 +82,8 @@ shinyUI(fluidPage(
       webGLOutput("transformedPtsPlot", width="800px", height="800px"),
       tableOutput("transformedPts")
     )
-  )
+  ),
+  
+  div(style="height: 100vh;")
   
 ))
