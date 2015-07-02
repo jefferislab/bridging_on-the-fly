@@ -24,6 +24,9 @@ shinyUI(fluidPage(
           <li>
             <a href="#coordinates">Bridge coordinates</a>
           </li>
+          <li>
+            <a href="#about">About</a>
+          </li>
         </ul>
       </div>
     </nav>'
@@ -83,6 +86,14 @@ shinyUI(fluidPage(
       tableOutput("transformedPts")
     )
   ),
+  
+  div(style="height: 100vh;"),
+  
+  HTML('<a name="about"></a>'),
+  h1("About", style="padding-top: 70px;"),
+  HTML("This web app accompanies <a href='http://dx.doi.org/10.1101/006353'>Manton et al. (2014) Combining genome-scale Drosophila 3D neuroanatomical data by bridging template brains</a> and acts as a demonstration of the bridging/mirroring approach for <i>Drosophila</i> brains (as implemented in the R package <a href='https://github.com/jefferislab/nat.flybrains'>nat.flybrains</a>), along with some features of the <a href='https://github.com/jefferis/nat'>NeuroAnatomy Toolbox</a>."),
+  h2("Source code"),
+  HTML("The full code for this web app can be downloaded from <a href='https://github.com/jefferislab/NBLAST_online'>GitHub</a>."),
   
   div(style="height: 100vh;")
   
