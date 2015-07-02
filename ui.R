@@ -11,7 +11,26 @@ templateList <- list("T1 (Yu et al 2010, Dickson, IMP)" = "T1",
 
 
 shinyUI(fluidPage(
-  h1("Bridge neurons"),
+  HTML(
+    '<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <span class="navbar-brand">Bridging on-the-fly</span>
+        </div>
+        <ul class="nav navbar-nav">
+          <li>
+            <a href="#neurons">Bridge neurons</a>
+          </li>
+          <li>
+            <a href="#coordinates">Bridge coordinates</a>
+          </li>
+        </ul>
+      </div>
+    </nav>'
+  ),
+  
+  HTML('<a name="neurons"></a>'),
+  h1("Bridge neurons", style="padding-top: 100px;"),
   sidebarLayout(
     sidebarPanel(
       h2("Instructions"),
@@ -37,10 +56,8 @@ shinyUI(fluidPage(
     )
   ),
   
+  HTML('<a name="coordinates"></a>'),
   br(),
-  br(),
-  br(),
-  
   h1("Bridge coordinates"),
   sidebarLayout(
     sidebarPanel(
