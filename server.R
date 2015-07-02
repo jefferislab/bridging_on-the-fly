@@ -33,7 +33,9 @@ shinyServer(function(input, output) {
     input$bridge_button
     isolate(query_neuron <- input$file1)
     if(is.null(query_neuron)) return(NULL)
-    if(grepl("\\.zip", query_neuron$name)) {
+    if(!is.null(reader <- getformatreader(query_neuron$datapath, 'hxsurf')$read)) {
+      tracing_neuron <- reader(query_neuron$datapath)
+    } else if(grepl("\\.zip", query_neuron$name)) {
       neurons_dir <- file.path(tempdir(), "user_neurons")
       on.exit(unlink(neurons_dir, recursive=TRUE))
       unzip(query_neuron$datapath, exdir=neurons_dir)
@@ -71,9 +73,14 @@ shinyServer(function(input, output) {
   
   # Download points handler
   output$downloadResults <- downloadHandler(
-    filename = function() {  paste0('transformed-', Sys.Date(), '.swc') },
-    content = function(file) {
-      write.neuron(tracing(), file, format="swc", ext="")
+    filename = function() {
+      ifelse("hxsurf" %in% class(transformed_tracing()), paste0('transformed_', input$to, '_', input$from, '_', Sys.Date(), '.surf'), paste0('transformed_', Sys.Date(), '.swc'))
+    }, content = function(file) {
+      if("hxsurf" %in% class(transformed_tracing())) {
+        write.hxsurf(transformed_tracing(), file=file)
+      } else {
+        write.neuron(transformed_tracing(), file=file, format="swc", ext=".swc")
+      }
     }
   )
   
@@ -173,7 +180,7 @@ shinyServer(function(input, output) {
   })
   
   output$complete <- reactive({
-    input$file1
+    input$bridge_button
     return(ifelse(TransformStatus=="DONE", TRUE, FALSE))
   })
   outputOptions(output, 'complete', suspendWhenHidden=FALSE)
