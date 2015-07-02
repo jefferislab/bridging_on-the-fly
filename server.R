@@ -116,7 +116,21 @@ shinyServer(function(input, output) {
   transformed_points <- reactive({
     pts <- points()
     if(input$fromPts != input$toPts) {
-       pts <- xform_brain(pts, sample=get(input$fromPts), reference=get(input$toPts))
+       if(input$mirror_points) {
+        tryCatch({
+          pts <- mirror_brain(pts, get(input$fromPts))
+          pts <- xform_brain(pts, sample=get(input$fromPts), reference=get(input$toPts))
+        }, error = function(e) {
+          tryCatch({
+            pts <- xform_brain(pts, sample=get(input$fromPts), reference=get(input$toPts))
+            pts <- mirror_brain(pts, get(input$toPts))
+          }, error = function(e) {
+            stop("Could not mirror points")
+          })
+        })
+      } else {
+        pts <- xform_brain(pts, sample=get(input$fromPts), reference=get(input$toPts))
+      }
     }
     pts
   })
@@ -152,7 +166,7 @@ shinyServer(function(input, output) {
       text3d(0,0,-1.5,"and click bridge!")
     } else {
       # Dummy plot
-      spheres3d(pts, radius=5, color=rainbow(length(points())))
+      spheres3d(pts, radius=5, color=rainbow(length(pts)))
       plot3d(get(paste0(input$toPts, ".surf")), col="grey", alpha=0.3)
       frontalView()
     }

@@ -52,6 +52,7 @@ tabPanel("Coordinates",
     h2("Original points"),
     HTML('<textarea id="input_points" rows="16" cols=60>100 200 50
 400 100 10</textarea>'),
+    checkboxInput("mirror_points", "Mirror?", value=FALSE),
     submitButton("Bridge"),
     br(),
     h3("In 3D"),
