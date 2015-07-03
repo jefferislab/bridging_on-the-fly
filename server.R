@@ -32,7 +32,7 @@ shinyServer(function(input, output) {
    tracing <- reactive({
     input$bridge_button
     isolate(query_neuron <- input$file1)
-    if(is.null(query_neuron)) return(NULL)
+    if(is.null(query_neuron) | "Choose a brain" %in% c(input$from, input$to)) return(NULL)
     if(!is.null(reader <- getformatreader(query_neuron$datapath, 'hxsurf')$read)) {
       tracing_neuron <- reader(query_neuron$datapath)
     } else if(grepl("\\.zip", query_neuron$name)) {
@@ -122,6 +122,7 @@ shinyServer(function(input, output) {
   
   transformed_points <- reactive({
     pts <- points()
+    if("Choose a brain" %in% c(input$fromPts, input$toPts)) return(NULL)
     if(input$fromPts != input$toPts) {
        if(input$mirror_points) {
         tryCatch({
@@ -144,7 +145,7 @@ shinyServer(function(input, output) {
   
   output$originalPtsPlot <- renderWebGL({
     pts <- points()
-    if(is.null(pts)) {
+    if(is.null(pts) | "Choose a brain" %in% c(input$fromPts, input$toPts)) {
       # Dummy plot
       spheres3d(5,5,5,0)
       spheres3d(-5,-5,-5,0)
@@ -165,7 +166,7 @@ shinyServer(function(input, output) {
   
   output$transformedPtsPlot <- renderWebGL({
     pts <- transformed_points()
-    if(is.null(pts)) {
+    if(is.null(pts) | "Choose a brain" %in% c(input$fromPts, input$toPts)) {
       # Dummy plot
       spheres3d(5,5,5,0)
       spheres3d(-5,-5,-5,0)
