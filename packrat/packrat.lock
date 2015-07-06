@@ -43,6 +43,11 @@ Version: 1.95-4.7
 Hash: 7756ed9df5d79ca87bc9e93f85d89b87
 Requires: bitops
 
+Package: RJSONIO
+Source: CRAN
+Version: 1.3-0
+Hash: fb672e20eb6f3010a3639f855d8ef6de
+
 Package: Rcpp
 Source: CRAN
 Version: 0.11.6
@@ -63,6 +68,12 @@ Package: brew
 Source: CRAN
 Version: 1.0-6
 Hash: 931f9972deae0f205e1c78a51f33149b
+
+Package: caTools
+Source: CRAN
+Version: 1.17.1
+Hash: 97cb6f6293cd18d17df77a6383cc6763
+Requires: bitops
 
 Package: cluster
 Source: CRAN
@@ -289,13 +300,9 @@ Hash: 5990382c4af41f623890b1aeb63ffab5
 Requires: Rcpp, plyr, stringr
 
 Package: rgl
-Source: github
-Version: 0.95.1227
-Hash: 52854ebef38322b37e9a8a7d72e367d0
-GithubRepo: rgl
-GithubUsername: trestletech
-GithubRef: master
-GithubSha1: 61ecf35ddf746a1623ff743f2f5b353f1dfbb61c
+Source: CRAN
+Version: 0.95.1201
+Hash: 821ac57e965947b9b0b136063fca734c
 
 Package: rngtools
 Source: CRAN
