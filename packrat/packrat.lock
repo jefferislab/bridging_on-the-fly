@@ -242,19 +242,23 @@ Requires: digest, filehash, igraph, nabor, nat.utils, plyr, rgl, yaml
 
 Package: nat.flybrains
 Source: github
-Version: 1.5
-Hash: 885f5d8f3682c9036531723125872b63
-Requires: nat.templatebrains, rappdirs
+Version: 1.6
+Hash: ee51f800d418a49447a2249b5f8de939
+Requires: nat.templatebrains
 GithubRepo: nat.flybrains
 GithubUsername: jefferislab
 GithubRef: master
-GithubSha1: cb6db3b61cc820d35abc836771dc425d3ae8b12b
+GithubSha1: b7bd0539bbd0e2df0886ba899fcee58bb9766d57
 
 Package: nat.templatebrains
-Source: CRAN
-Version: 0.4.1
-Hash: 74f15164df63121cd384a7a423c05e44
-Requires: nat, rgl
+Source: github
+Version: 0.6.0.99
+Hash: 80abcb35f0f68e3d2fe9c04dacb094f6
+Requires: digest, igraph, nat, rappdirs, rgl
+GithubRepo: nat.templatebrains
+GithubUsername: jefferislab
+GithubRef: master
+GithubSha1: e85e22877fecc36c3575a713c5f450150f2aee49
 
 Package: nat.utils
 Source: CRAN
