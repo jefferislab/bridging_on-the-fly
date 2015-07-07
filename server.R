@@ -66,6 +66,8 @@ shinyServer(function(input, output) {
       } else {
         tracing_neuron <- xform_brain(tracing_neuron, sample=get(input$from), reference=get(input$to))
       }
+    } else if(input$mirror) {
+      tracing_neuron <- mirror_brain(tracing_neuron, get(input$from))
     }
     tracing_neuron
   })
