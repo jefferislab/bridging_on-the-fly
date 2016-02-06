@@ -55,6 +55,13 @@ sidebarLayout(
 		rglwidgetOutput("transformedPtsPlot", width="800px", height="800px"),
 		tableOutput("transformedPts")
 	)
-))
+)),
+
+
+tabPanel("About",
+	HTML("This web app accompanies <a href='http://dx.doi.org/10.1101/006353'>Manton et al. (2014) Combining genome-scale Drosophila 3D neuroanatomical data by bridging template brains</a> and acts as a demonstration of the bridging/mirroring approach for <i>Drosophila</i> brains (as implemented in the R package <a href='https://github.com/jefferislab/nat.flybrains'>nat.flybrains</a>), along with some features of the <a href='https://github.com/jefferis/nat'>NeuroAnatomy Toolbox</a>. For more information, see <a href='http://flybrain.mrc-lmb.cam.ac.uk/si/bridging/www/about/'>here</a>."),
+  h2("Source code"),
+  HTML("The full code for this web app can be downloaded from <a href='https://github.com/jefferislab/NBLAST_online'>GitHub</a>.")
+)
 
 ))
