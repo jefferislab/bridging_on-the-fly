@@ -1,7 +1,7 @@
 library(shiny)
 library(nat)
 library(nat.flybrains)
-library(rglwidget)
+library(rgl)
 
 options(rgl.useNULL=TRUE)
 
