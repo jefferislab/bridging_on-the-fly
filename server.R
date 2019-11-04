@@ -1,23 +1,9 @@
 library(shiny)
 library(nat)
 library(nat.flybrains)
-library(shinyRGL)
+library(rgl)
+options(rgl.useNULL=TRUE)
 options(nat.default.neuronlist='Cell07PNs')
-
-# Overwrite RGL's inRows function to reduce the number of digits from 7 to 5
-inRows <- function(values, perrow, leadin="\t", digits=5) {
-  if (is.matrix(values)) values <- t(values)
-  values <- c(values)
-  if (is.numeric(values)) values <- formatC(values, digits = digits, width = 1)
-  len <- length(values)
-  if (len%%perrow != 0) values <- c(values, rep("PADDING", perrow - len%%perrow))
-  values <- matrix(values, ncol = perrow, byrow = TRUE)
-  lines <- paste(leadin, apply(values, 1, function(row) paste(row, collapse = ", ")))
-  lines[length(lines)] <- gsub(", PADDING", "", lines[length(lines)])
-  paste(lines, collapse = ",\n")
-}
-environment(inRows) <- asNamespace('rgl')
-assignInNamespace('inRows', inRows, ns='rgl')
 
 # Define a function for a frontal view of the brain
 frontalView<-function(zoom=0.6){
@@ -86,7 +72,8 @@ shinyServer(function(input, output) {
     }
   )
   
-  output$transformedPlot <- renderWebGL({
+  output$transformedPlot <- renderRglwidget({
+    clear3d()
     uploadedFile <- transformed_tracing()
     if(is.null(uploadedFile)) {
       # Dummy plot
@@ -99,9 +86,11 @@ shinyServer(function(input, output) {
       plot3d(get(paste0(input$to, ".surf")), col="grey", alpha=0.3)
       frontalView()
     }
+    rglwidget()
   })
 
-  output$originalPlot <- renderWebGL({
+  output$originalPlot <- renderRglwidget({
+    clear3d()
     uploadedFile <- tracing()
     if(is.null(uploadedFile)) {
       # Dummy plot
@@ -113,6 +102,7 @@ shinyServer(function(input, output) {
       plot3d(get(paste0(input$from, ".surf")), col="grey", alpha=0.3)
       frontalView()
     }
+    rglwidget()
   })
   
   points <- reactive({
@@ -145,7 +135,8 @@ shinyServer(function(input, output) {
     pts
   })
   
-  output$originalPtsPlot <- renderWebGL({
+  output$originalPtsPlot <- renderRglwidget({
+    clear3d()
     pts <- points()
     if(is.null(pts) | "Choose a brain" %in% c(input$fromPts, input$toPts)) {
       # Dummy plot
@@ -159,6 +150,7 @@ shinyServer(function(input, output) {
       plot3d(get(paste0(input$fromPts, ".surf")), col="grey", alpha=0.3)
       frontalView()
     }
+    rglwidget()
   })
   
   output$transformedPts <- renderTable({
@@ -166,7 +158,8 @@ shinyServer(function(input, output) {
     pts
   })
   
-  output$transformedPtsPlot <- renderWebGL({
+  output$transformedPtsPlot <- renderRglwidget({
+    clear3d()
     pts <- transformed_points()
     if(is.null(pts) | "Choose a brain" %in% c(input$fromPts, input$toPts)) {
       # Dummy plot
@@ -180,6 +173,7 @@ shinyServer(function(input, output) {
       plot3d(get(paste0(input$toPts, ".surf")), col="grey", alpha=0.3)
       frontalView()
     }
+    rglwidget()
   })
   
   output$complete <- reactive({

@@ -1,7 +1,7 @@
 library(shiny)
 library(nat)
 library(nat.flybrains)
-library(shinyRGL)
+library(rgl)
 
 templateList <- list("Choose a brain" = "Choose a brain",
                      "T1 (Yu et al 2010, Dickson, IMP)" = "T1", 
@@ -49,11 +49,11 @@ shinyUI(fluidPage(
       tags$button(type='submit', class='btn btn-primary', list(NULL, "Bridge"), id='bridge_submit', style="display: none;"),
       HTML('<script type="text/javascript">document.getElementById("bridge_button").onclick = function() { document.getElementById("bridge_button").click(); document.getElementById("bridge_submit").click(); }</script>'),
       h2("Original neuron(s)"),
-      webGLOutput("originalPlot", width="400px", height="400px")
+      rglwidgetOutput("originalPlot", width="400px", height="400px")
     ),
     mainPanel(
       h2("Transformed neuron(s)"),
-      webGLOutput("transformedPlot", width="800px", height="800px")
+      rglwidgetOutput("transformedPlot", width="800px", height="800px")
       
     )
   ),
@@ -77,13 +77,13 @@ shinyUI(fluidPage(
       submitButton("Bridge"),
       br(),
       h3("In 3D"),
-      webGLOutput("originalPtsPlot", width="400px", height="400px")
+      rglwidgetOutput("originalPtsPlot", width="400px", height="400px")
     ),
     
     mainPanel(
       h2("Transformed points"),
       h3("In 3D"),
-      webGLOutput("transformedPtsPlot", width="800px", height="800px"),
+      rglwidgetOutput("transformedPtsPlot", width="800px", height="800px"),
       tableOutput("transformedPts")
     )
   ),
