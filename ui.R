@@ -7,7 +7,7 @@ templateList <- list("Choose a brain" = "Choose a brain",
                      "T1 (Yu et al 2010, Dickson, IMP)" = "T1", 
                      "IS2 (Cachero, Ostrovsky et al 2010, Jefferis, MRC LMB)" = "IS2", 
                      "IBNWB (Insect Brain Name Working Group)" = "IBNWB",
-                     "FCWB (Ostrovsky/Costa in prep, Jefferis, MRC LMB)" = "FCWB",
+                     "FCWB (Costa et al 2016, Jefferis, MRC LMB)" = "FCWB",
                      "JFRC2 (HHMI/VFB)" = "JFRC2")
 
 
